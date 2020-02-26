@@ -217,6 +217,11 @@ article h4 {
 #user-profile > * {
   margin: 10px 0;
 }
+#notification {
+  color: red;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
 
 
 /** responsive queries for tightening things up for mobile. */

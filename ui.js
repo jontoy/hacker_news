@@ -16,6 +16,7 @@ $(async function() {
   const $welcome = $('#welcome');
   const $jobs = $('#jobs');
   const $nav = $('nav');
+  const $notification = $('#notification');
 
   // global storyList variable
   let storyList = null;
@@ -25,7 +26,12 @@ $(async function() {
 
   await checkIfLoggedIn();
 
-
+  const showNotification = (message) => {
+    $notification.text('');
+    $notification.stop().slideDown(() => {
+      $notification.text(message).delay(2000).slideUp();
+    });
+  }
   $nav.on("click", "#nav-all", async function() {
     //Event handler for Navigation to Homepage
     hideElements();
@@ -86,12 +92,16 @@ $(async function() {
     const password = $("#login-password").val();
 
     // call the login static method to build a user instance
-    const userInstance = await User.login(username, password);
-    // set the global user to the user instance
-    currentUser = userInstance;
-    syncCurrentUserToLocalStorage();
-    loginAndSubmitForm();
-    await generateAllStories();
+    const userInstance = await User.login(username, password)
+    .then(async(userInstance) => {
+      // set the global user to the user instance
+      currentUser = userInstance;
+      syncCurrentUserToLocalStorage();
+      loginAndSubmitForm();
+      await generateAllStories();
+    }).catch((e) => {
+      showNotification(e.response.data.error.message);
+    });
   });
 
   $createAccountForm.on("submit", async function(evt) {
@@ -107,11 +117,15 @@ $(async function() {
     let password = $("#create-account-password").val();
 
     // call the create method, which calls the API and then builds a new user instance
-    const newUser = await User.create(username, password, name);
-    currentUser = newUser;
-    syncCurrentUserToLocalStorage();
-    loginAndSubmitForm();
-    await generateAllStories();
+    const newUser = await User.create(username, password, name)
+    .then(async (newUser)=> {
+      currentUser = newUser;
+      syncCurrentUserToLocalStorage();
+      loginAndSubmitForm();
+      await generateAllStories();
+    }).catch((e) => {
+      showNotification(e.response.data.error.message);
+    });
   });
 
 
