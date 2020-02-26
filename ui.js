@@ -328,7 +328,7 @@ $(async function() {
         <small class="article-author">by ${story.author}</small>
         <small class="article-hostname ${hostName}">(${hostName})</small>
         <small class="article-favorite ${(isFavorite || !isLoggedIn) ? 'hidden': ''}">[favorite]</small>
-        <small class="article-unfavorite ${(isFavorite || !isLoggedIn) ? '': 'hidden'}">[unfavorite]</small>
+        <small class="article-unfavorite ${isFavorite ? '': 'hidden'}">[unfavorite]</small>
         <small class="article-edit ${isOwn ? '': 'hidden'}">{edit}</small>
         <small class="article-delete ${isOwn ? '': 'hidden'}">{delete}</small>
         <small class="article-username">posted by ${story.username} ${moment(story.createdAt).fromNow()}</small>
