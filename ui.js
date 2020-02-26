@@ -13,6 +13,8 @@ $(async function() {
   const $navUserProfile = $('#nav-user-profile');
   const $navLogin = $("#nav-login");
   const $construction = $('#construction');
+  const $welcome = $('#welcome');
+  const $jobs = $('#jobs');
   const $nav = $('nav');
 
   // global storyList variable
@@ -38,18 +40,30 @@ $(async function() {
     $allStoriesList.toggle();
     $submitForm.hide();
   });
+  $nav.on('click', '#nav-welcome', function() {
+    // Event Handler for clicking welcome
+    hideMinorTabs(exclude=$welcome);
+    $welcome.slideToggle();
+  });
+  $nav.on('click', '#nav-jobs', function() {
+    // Event Handler for clicking welcome
+    hideMinorTabs(exclude=$jobs);
+    $jobs.slideToggle();
+  });
   $nav.on('click', '.under-construction', function() {
     // Show construction page for non-functional nav links
-    hideMinorTabs();
+    hideMinorTabs(exclude=$construction);
     $construction.slideToggle();
   });
   $nav.on('click', '#nav-submit', function() {
     // toggles new story form upon clicking "submit" tab
+    hideMinorTabs(exlude=$submitForm);
     $submitForm.slideToggle();
   });
   $nav.on('click', '#nav-user-profile', function(){
     // handles toggle of user profile section when clicking
     // username in navbar
+    hideMinorTabs(exclude=$userProfile);
     $userProfile.slideToggle();
   })
   $nav.on('click', '#nav-logout', function() {
@@ -249,7 +263,7 @@ $(async function() {
       const isFavorite = favoriteStoryIds.includes(story.storyId);
       const isOwn = ownStoryIds.includes(story.storyId);
       if(!(isFavorite || isOwn)){
-        addStoryHTML(story, isFavorite, isOwn, $allStoriesList);
+        addStoryHTML(story, isFavorite, isOwn, isLoggedIn=!!currentUser, $allStoriesList);
       }
     }
   }
@@ -265,7 +279,7 @@ $(async function() {
     for (let story of currentUser.favorites){
       const isOwn = ownStoryIds.includes(story.storyId)
       if(!isOwn){
-        addStoryHTML(story, isFavorite=true, isOwn, $favoriteStoriesList)
+        addStoryHTML(story, isFavorite=true, isOwn, isLoggedIn=true, $favoriteStoriesList)
       }
     }
   }
@@ -283,21 +297,23 @@ $(async function() {
         story, 
         isFavorite=favoriteStoryIds.includes(story.storyId),
         isOwn=true, 
+        isLoggedIn=true,
         $ownStoriesList);
     }
   }
-  function addStoryHTML(story, isFavorite=false, isOwn=false, destinationList){
+  function addStoryHTML(story, isFavorite=false, isOwn=false, isLoggedIn=false, destinationList){
     // render story as list item of specified destination list with appropriate
     // favorite/unfavorite/edit/delete buttons
     const result = generateStoryHTML(
       story, 
       isFavorite,
-      isOwn);
+      isOwn,
+      isLoggedIn);
       destinationList.append(result);
   }
 
 
-  function generateStoryHTML(story, isFavorite=false, isOwn=false) {
+  function generateStoryHTML(story, isFavorite=false, isOwn=false, isLoggedIn=false) {
   /**
    * A function to render HTML for an individual Story instance
    */
@@ -311,8 +327,8 @@ $(async function() {
         </a>
         <small class="article-author">by ${story.author}</small>
         <small class="article-hostname ${hostName}">(${hostName})</small>
-        <small class="article-favorite ${isFavorite ? 'hidden': ''}">[favorite]</small>
-        <small class="article-unfavorite ${isFavorite ? '': 'hidden'}">[unfavorite]</small>
+        <small class="article-favorite ${(isFavorite || !isLoggedIn) ? 'hidden': ''}">[favorite]</small>
+        <small class="article-unfavorite ${(isFavorite || !isLoggedIn) ? '': 'hidden'}">[unfavorite]</small>
         <small class="article-edit ${isOwn ? '': 'hidden'}">{edit}</small>
         <small class="article-delete ${isOwn ? '': 'hidden'}">{delete}</small>
         <small class="article-username">posted by ${story.username} ${moment(story.createdAt).fromNow()}</small>
@@ -323,15 +339,22 @@ $(async function() {
   }
 
 
-  function hideMinorTabs() {
+  function hideMinorTabs(exclude) {
     const elementsArr = [
       $submitForm,
       $editArticleForm,
       $loginForm,
       $userProfile,
       $createAccountForm,
+      $construction,
+      $welcome,
+      $jobs
     ];
-    elementsArr.forEach($elem => $elem.slideUp());
+    elementsArr.forEach(($elem) => {
+      if(!($elem === exclude)) {
+        $elem.slideUp()
+      } 
+    });
   }
   function hideStories() {
     const elementsArr = [

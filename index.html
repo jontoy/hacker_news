@@ -14,16 +14,16 @@
 <body>
   <nav>
     <b><a class="nav-link navbar-brand" href="#" id="nav-all">Hack or Snooze</a></b>
-    <a class="nav-link border-r nav-login-required under-construction hidden" href="#">welcome</a>
+    <a class="nav-link border-r nav-login-required hidden" id="nav-welcome" href="#">welcome</a>
     <a class="nav-link border-r under-construction" href="#">new</a>
     <a class="nav-link border-r nav-login-required under-construction hidden" href="#">threads</a>
     <a class="nav-link border-r under-construction" href="#">past</a>
     <a class="nav-link border-r under-construction" href="#">comments</a>
     <a class="nav-link border-r under-construction" href="#">ask</a>
     <a class="nav-link border-r under-construction" href="#">show</a>
-    <a class="nav-link border-r nav-login-required under-construction hidden" href="#">jobs</a>
+    <a class="nav-link border-r nav-login-required hidden" id="nav-jobs" href="#">jobs</a>
     <a class="nav-link nav-login-required hidden" href="#" id="nav-submit">submit</a>
-    <span class="nav-link nav-right" id="nav-welcome">
+    <span class="nav-link nav-right" id="nav-user">
       <a href="#" class="nav-link nav-right nav-login-required hidden" id="nav-user-profile"></a>
       <a class="nav-link nav-right" href="#" id="nav-login">login/create user</a>
       <a class="nav-link nav-right nav-login-required hidden" id="nav-logout" href="#">
@@ -31,6 +31,18 @@
       </a>
     </span>
   </nav>
+  <section id="welcome" class="container hidden">
+    <h4>Welcome to Hack or Snooze</h4>
+    <p>Not to be confused with Hacker News</p>
+  </section>
+  <section id="jobs" class="container hidden">
+    <h4>Jobs</h4>
+    <ol class="jobs-list">
+      <li><strong>Tech & Co.</strong> (S15) Is Hiring a Product Designer</li>
+      <li><strong>Tech Friends Ltd.</strong> (W17) Is Hiring Engineers</li>
+      <li><strong>Google</strong> Is Always Hiring</li>
+    </ol>
+  </section>
   <section id='construction' class="container hidden">
     <h4>Under Construction</h4>
     <p>This section is currently under construction. Please check back later!</p>

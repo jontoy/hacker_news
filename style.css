@@ -149,21 +149,14 @@ form > hr {
   margin: 10px 0;
   cursor: pointer;
 }
-
-.star,
-.trash-can,
-.pencil {
-  font-size: 0.75rem;
-  margin: 0 2px;
+.jobs-list > li {
+  color: gray;
+  font-size: 0.8rem;
+  margin: 10px 0;
   cursor: pointer;
 }
-
-.trash-can:hover {
-  color: crimson;
-}
-
-.pencil:hover {
-  color: darkblue;
+.jobs-list {
+  padding-left: 25px;
 }
 
 .article-link > strong {
@@ -215,7 +208,9 @@ article h4 {
   font-size: 0.9rem;
 }
 
-#construction {
+#construction,
+#welcomel,
+#jobs {
   padding: 20px;
   font-size: 0.9rem;
 }
